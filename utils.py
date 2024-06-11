@@ -37,7 +37,7 @@ class NeuralCDE(torch.nn.Module):
         pred_y = self.readout(z_T)
         return pred_y
 
-def get_data0(num_timepoints):
+def get_data2d(num_timepoints):
     t = torch.linspace(0., 4 * math.pi, num_timepoints)
     start = torch.rand(HIDDEN_LAYER_WIDTH) * 2 * math.pi
     x_pos = torch.cos(start.unsqueeze(1) + t.unsqueeze(0)) / (1 + 0.5 * t)
@@ -52,7 +52,7 @@ def get_data0(num_timepoints):
     return X[perm], y[perm]
 
 
-def get_data(num_timepoints):
+def get_data3d(num_timepoints):
     t = torch.linspace(0., 4 * math.pi, num_timepoints)
     start = torch.rand(HIDDEN_LAYER_WIDTH) * 2 * math.pi
     x_pos = torch.cos(start.unsqueeze(1) + t.unsqueeze(0)) / (1 + 0.5 * t)
