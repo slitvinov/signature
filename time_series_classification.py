@@ -3,26 +3,11 @@ import numpy as np
 import torch
 import torchcde
 import utils
-import matplotlib.pyplot as plt
 
 utils.HIDDEN_LAYER_WIDTH = 64
 NUM_EPOCHS = 10
 BATCH_SIZE = 32
-
 train_X, train_y = utils.get_data()
-fig, (ax1, ax2) = plt.subplots(1, 2, tight_layout=True)
-idx, = np.where(train_y == 0)
-ax1.plot(train_X[idx[0], :, 1], train_X[idx[0], :, 2])
-ax1.set_title("Anticlockwise spiral")
-ax1.set_xlabel("x")
-ax1.set_ylabel("y")
-
-idx, = np.where(train_y == 1)
-ax2.plot(train_X[idx[0], :, 1], train_X[idx[0], :, 2])
-ax2.set_title("Clockwise spiral")
-ax2.set_xlabel("x")
-ax2.set_ylabel("y")
-plt.show()
 
 model = utils.NeuralCDE(input_channels=3, hidden_channels=8, output_channels=1)
 optimizer = torch.optim.Adam(model.parameters())
