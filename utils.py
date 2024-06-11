@@ -3,30 +3,37 @@ import torchcde
 import math
 
 
+class View(torch.nn.Module):
+
+    def __init__(self, *shape):
+        super().__init__()
+        self.shape = shape
+
+    def forward(self, x):
+        return x.view(-1, *self.shape)
+
+
 class CDEFunc(torch.nn.Module):
 
     def __init__(self, input_channels, hidden_channels):
-        super(CDEFunc, self).__init__()
-        self.input_channels = input_channels
-        self.hidden_channels = hidden_channels
+        super().__init__()
         self.model = torch.nn.Sequential(
             torch.nn.Linear(hidden_channels, HIDDEN_LAYER_WIDTH),
             torch.nn.ReLU(),
             torch.nn.Linear(HIDDEN_LAYER_WIDTH,
-                                       input_channels * hidden_channels),
-            torch.nn.Tanh())
+                            input_channels * hidden_channels), torch.nn.Tanh(),
+            View(hidden_channels, input_channels))
 
     def forward(self, t, z):
-        z = self.model(z)
-        return z.view(z.size(0), self.hidden_channels, self.input_channels)
+        return self.model(z)
 
 
 class NeuralCDE(torch.nn.Module):
 
     def __init__(self, input_channels, hidden_channels, output_channels):
-        super(NeuralCDE, self).__init__()
-
+        super().__init__()
         self.func = CDEFunc(input_channels, hidden_channels)
+        CDEFunc(input_channels, hidden_channels)
         self.initial = torch.nn.Linear(input_channels, hidden_channels)
         self.readout = torch.nn.Linear(hidden_channels, output_channels)
 
