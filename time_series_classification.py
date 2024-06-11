@@ -7,8 +7,8 @@ utils.HIDDEN_LAYER_WIDTH = 64
 NUM_EPOCHS = 10
 BATCH_SIZE = 32
 NUM_TIMEPOINTS = 100
-train_X, train_y = utils.get_data(NUM_TIMEPOINTS)
-model = utils.NeuralCDE(input_channels=3, hidden_channels=8, output_channels=1)
+train_X, train_y = utils.get_data0(NUM_TIMEPOINTS)
+model = utils.NeuralCDE(input_channels=2, hidden_channels=8, output_channels=1)
 optimizer = torch.optim.Adam(model.parameters())
 train_coeffs = torchcde.natural_cubic_coeffs(train_X)
 train_dataset = torch.utils.data.TensorDataset(train_coeffs, train_y)
@@ -25,7 +25,7 @@ for epoch in range(NUM_EPOCHS):
         optimizer.zero_grad()
     print('Epoch: {:2d}   Training loss: {}'.format(epoch, loss.item()))
 
-test_X, test_y = utils.get_data(NUM_TIMEPOINTS)
+test_X, test_y = utils.get_data0(NUM_TIMEPOINTS)
 test_coeffs = torchcde.natural_cubic_coeffs(test_X)
 pred_y = model(torchcde.NaturalCubicSpline(test_coeffs)).squeeze(-1)
 binary_prediction = (torch.sigmoid(pred_y) > 0.5).to(test_y.dtype)
