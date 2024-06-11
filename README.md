@@ -1,7 +1,7 @@
 <h2>Introduction</h2>
 
-Examples from [controlled_neural_differential_equations]
-(https://github.com/datasig-ac-uk/signature_applications/tree/master/controlled_neural_differential_equations)
+Examples from
+[controlled_neural_differential_equations](https://github.com/datasig-ac-uk/signature_applications/tree/master/controlled_neural_differential_equations)
 
 <h2>Install</h2>
 
