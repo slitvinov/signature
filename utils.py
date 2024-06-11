@@ -25,24 +25,14 @@ class CDEFunc(torch.nn.Module):
 
 class NeuralCDE(torch.nn.Module):
 
-    def __init__(self, input_channels, hidden_channels, output_channels,
-                 interpolation):
+    def __init__(self, input_channels, hidden_channels, output_channels):
         super(NeuralCDE, self).__init__()
 
         self.func = CDEFunc(input_channels, hidden_channels)
         self.initial = torch.nn.Linear(input_channels, hidden_channels)
         self.readout = torch.nn.Linear(hidden_channels, output_channels)
-        self.interpolation = interpolation
 
-    def forward(self, coeffs):
-        if self.interpolation == 'cubic':
-            X = torchcde.NaturalCubicSpline(coeffs)
-        elif self.interpolation == 'linear':
-            X = torchcde.LinearInterpolation(coeffs)
-        else:
-            raise ValueError(
-                "Only 'linear' and 'cubic' interpolation methods are implemented."
-            )
+    def forward(self, X):
         X0 = X.evaluate(X.interval[0])
         z0 = self.initial(X0)
         z_T = torchcde.cdeint(X=X, z0=z0, func=self.func, t=X.interval)
@@ -51,7 +41,7 @@ class NeuralCDE(torch.nn.Module):
         return pred_y
 
 
-def get_data(num_timepoints=100):
+def get_data(num_timepoints):
     t = torch.linspace(0., 4 * math.pi, num_timepoints)
 
     start = torch.rand(HIDDEN_LAYER_WIDTH) * 2 * math.pi
@@ -65,6 +55,4 @@ def get_data(num_timepoints=100):
     y = torch.zeros(HIDDEN_LAYER_WIDTH)
     y[:HIDDEN_LAYER_WIDTH // 2] = 1
     perm = torch.randperm(HIDDEN_LAYER_WIDTH)
-    X = X[perm]
-    y = y[perm]
-    return X, y
+    return X[perm], y[perm]
