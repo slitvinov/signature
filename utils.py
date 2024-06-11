@@ -25,11 +25,8 @@ class CDEFunc(torch.nn.Module):
 
 class NeuralCDE(torch.nn.Module):
 
-    def __init__(self,
-                 input_channels,
-                 hidden_channels,
-                 output_channels,
-                 interpolation="cubic"):
+    def __init__(self, input_channels, hidden_channels, output_channels,
+                 interpolation):
         super(NeuralCDE, self).__init__()
 
         self.func = CDEFunc(input_channels, hidden_channels)

@@ -1,4 +1,3 @@
-import math
 import numpy as np
 import torch
 import torchcde
@@ -8,8 +7,10 @@ utils.HIDDEN_LAYER_WIDTH = 64
 NUM_EPOCHS = 10
 BATCH_SIZE = 32
 train_X, train_y = utils.get_data()
-
-model = utils.NeuralCDE(input_channels=3, hidden_channels=8, output_channels=1)
+model = utils.NeuralCDE(input_channels=3,
+                        hidden_channels=8,
+                        output_channels=1,
+                        interpolation="cubic")
 optimizer = torch.optim.Adam(model.parameters())
 train_coeffs = torchcde.natural_cubic_coeffs(train_X)
 train_dataset = torch.utils.data.TensorDataset(train_coeffs, train_y)
