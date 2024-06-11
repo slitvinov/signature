@@ -9,18 +9,16 @@ class CDEFunc(torch.nn.Module):
         super(CDEFunc, self).__init__()
         self.input_channels = input_channels
         self.hidden_channels = hidden_channels
-
-        self.linear1 = torch.nn.Linear(hidden_channels, HIDDEN_LAYER_WIDTH)
-        self.linear2 = torch.nn.Linear(HIDDEN_LAYER_WIDTH,
-                                       input_channels * hidden_channels)
+        self.model = torch.nn.Sequential(
+            torch.nn.Linear(hidden_channels, HIDDEN_LAYER_WIDTH),
+            torch.nn.ReLU(),
+            torch.nn.Linear(HIDDEN_LAYER_WIDTH,
+                                       input_channels * hidden_channels),
+            torch.nn.Tanh())
 
     def forward(self, t, z):
-        z = self.linear1(z)
-        z = z.relu()
-        z = self.linear2(z)
-        z = z.tanh()
-        z = z.view(z.size(0), self.hidden_channels, self.input_channels)
-        return z
+        z = self.model(z)
+        return z.view(z.size(0), self.hidden_channels, self.input_channels)
 
 
 class NeuralCDE(torch.nn.Module):
