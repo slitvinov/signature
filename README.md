@@ -6,7 +6,7 @@ Examples from
 <h2>Install</h2>
 
 <pre>
-$python -m pip -qqq install --no-deps \
+$ python -m pip -qqq install --no-deps \
   'torchcde@git+https://github.com/patrick-kidger/torchcde.git@4620b4b8bfb08416f4871c9e76510b69439ee916' \
   'git+https://github.com/patrick-kidger/signatory' \
   torchdiffeq torchsde trampoline
