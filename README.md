@@ -6,6 +6,10 @@ Examples from
 <h2>Install</h2>
 
 <pre>
-$ python -m pip install --no-deps torchcde@git+https://github.com/patrick-kidger/torchcde.git@4620b4b8bfb08416f4871c9e76510b69439ee916
-$ python -m pip install --no-deps git+https://github.com/patrick-kidger/signatory
+$python -m pip -qqq install --no-deps \
+  'torchcde@git+https://github.com/patrick-kidger/torchcde.git@4620b4b8bfb08416f4871c9e76510b69439ee916' \
+  'git+https://github.com/patrick-kidger/signatory' \
+  torchdiffeq torchsde trampoline
 </pre>
+
+https://colab.research.google.com/github/slitvinov/signature/blob/main/logsignature.ipynb

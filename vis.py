@@ -3,11 +3,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 utils.HIDDEN_LAYER_WIDTH = 64
-NUM_TIMEPOINTS = 100
-X, y = utils.get_data0(NUM_TIMEPOINTS)
-idx, = np.where(y == 0)
-plt.plot(X[idx[0], :, 0], X[idx[0], :, 1], 'o-')
+NUM_TIMEPOINTS = 200
+X, Y = utils.get_data0(NUM_TIMEPOINTS)
+idx, = np.where(Y == 0)
+x, y = X[idx[0]].T
+plt.axis("equal")
+plt.plot(x, y, 'r-')
+plt.plot([x[0]], [y[0]], 'ro')
 
-idx, = np.where(y == 1)
-plt.plot(X[idx[0], :, 0], X[idx[0], :, 1], 'x-')
-plt.show()
+idx, = np.where(Y == 1)
+x, y = X[idx[0]].T
+plt.plot(x, y, 'b-')
+plt.plot([x[0]], [y[0]], 'bo')
+plt.savefig("spiral.png")
